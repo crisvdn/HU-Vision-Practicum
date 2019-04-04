@@ -5,7 +5,9 @@
 */
 
 #pragma once
+#include <vector>
 #include "IntensityImage.h"
+
 class IntensityImageStudent : public IntensityImage {
 public:
 	IntensityImageStudent();
@@ -18,6 +20,7 @@ public:
 
 	void setPixel(int x, int y, Intensity pixel);
 	void setPixel(int i, Intensity pixel);
+
 
 	Intensity getPixel(int x, int y) const;
 	Intensity getPixel(int i) const;
