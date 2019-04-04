@@ -31,7 +31,8 @@ RGBImageStudent::~RGBImageStudent() {
 
 void RGBImageStudent::set(const int width, const int height) {
 	RGBImage::set(width, height);
-	int throwError = 0, e = 1 / throwError;
+	delete[] image;
+	this->image = new RGB[width * height];
 	//TODO: resize or create a new pixel storage (Don't forget to delete the old storage)
 }
 

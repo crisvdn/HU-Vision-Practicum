@@ -1,23 +1,26 @@
 #include "StudentPreProcessing.h"
 #include "ImageFactory.h"
+#include "IntensityImageStudent.h"
 #include <vector>
+#include <iostream>
 
 
 IntensityImage * StudentPreProcessing::stepToIntensityImage(const RGBImage &image) const {
-	std::vector<std::vector<RGB>> copy;
-	IntensityImage *newCopy = ImageFactory::newIntensityImage();
-	newCopy->set(image.getWidth(), image.getHeight());
-	for (int i = 0; i < newCopy->getHeight(); i++) {
-		for (int j = 0; j < newCopy->getWidth(); j++) {
+	std::cout << "To intensity image \n";
+	//std::vector<std::vector<RGB>> copy;
+	IntensityImageStudent *newCopy = new IntensityImageStudent(image.getWidth(), image.getHeight());
+	RGB pixel;
+	
+	for (unsigned int i = 0; i < image.getWidth(); i++) {
+		for (unsigned int j = 0; j < image.getHeight(); j++) {
+			pixel = image.getPixel(i, j);
+			//Intensity luminosityValue = (pixel.b * 0.07) + (pixel.g * 0.72) + (pixel.r * 0.21);
+			//newCopy->setPixel(j, i, luminosityValue);
+			newCopy->setPixel(j, i, (pixel.b + pixel.g + pixel.r) / 3);
 		}
 	}
-	/*copy.resize(image.getHeight(), std::vector<RGB>(image.getWidth()));
-	for (int i = 0; i < image.getHeight(); i++) {
-		for (int j = 0; j < image.getWidth(); j++) {
-			copy[i][j] = image.getPixel(i, j);
-		}
-	}
-	*/
+	
+	
 	return newCopy;
 }
 

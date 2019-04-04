@@ -9,6 +9,7 @@
 #include "IntensityImage.h"
 
 class IntensityImageStudent : public IntensityImage {
+	Intensity* image;
 public:
 	IntensityImageStudent();
 	IntensityImageStudent(const IntensityImageStudent &other);
