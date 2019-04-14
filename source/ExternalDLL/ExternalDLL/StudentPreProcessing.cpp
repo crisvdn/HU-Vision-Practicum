@@ -1,27 +1,30 @@
 #include "StudentPreProcessing.h"
 #include "ImageFactory.h"
 #include "IntensityImageStudent.h"
-#include <vector>
-#include <iostream>
-
 
 IntensityImage * StudentPreProcessing::stepToIntensityImage(const RGBImage &image) const {
-	std::cout << "To intensity image \n";
-	//std::vector<std::vector<RGB>> copy;
-	IntensityImageStudent *newCopy = new IntensityImageStudent(image.getWidth(), image.getHeight());
-	RGB pixel;
+	IntensityImageStudent *grayScaleImage = new IntensityImageStudent(image.getWidth(), image.getHeight());
+	RGB pixel = { 0,0,0 };
 	
 	for (unsigned int i = 0; i < image.getWidth(); i++) {
 		for (unsigned int j = 0; j < image.getHeight(); j++) {
 			pixel = image.getPixel(i, j);
-			//Intensity luminosityValue = (pixel.b * 0.07) + (pixel.g * 0.72) + (pixel.r * 0.21);
-			//newCopy->setPixel(j, i, luminosityValue);
-			newCopy->setPixel(j, i, (pixel.b + pixel.g + pixel.r) / 3);
+			if (1) { // luminosity method
+				Intensity luminosityValue = (pixel.b * 0.07) + (pixel.g * 0.72) + (pixel.r * 0.21);
+				grayScaleImage->setPixel(j, i, luminosityValue);
+			}
+			if (0) { // average method
+				grayScaleImage->setPixel(j, i, (pixel.b + pixel.g + pixel.r) / 3);
+			}
+			if (0) { // lightness method takes the highest R, G, or B value and adds this with the lowest value. 
+				unsigned char maxColorValue = pixel.getBiggestValue();
+				unsigned char minColorValue = pixel.getSmallestValue();
+				grayScaleImage->setPixel(j, i, (maxColorValue + minColorValue) / 2);
+
+			}
 		}
 	}
-	
-	
-	return newCopy;
+	return grayScaleImage;
 }
 
 IntensityImage * StudentPreProcessing::stepScaleImage(const IntensityImage &image) const {
