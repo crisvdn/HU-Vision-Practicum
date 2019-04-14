@@ -9,6 +9,7 @@
 #include "HereBeDragons.h"
 #include "ImageFactory.h"
 #include "DLLExecution.h"
+#include <chrono>
 
 void drawFeatureDebugImage(IntensityImage &image, FeatureMap &features);
 bool executeSteps(DLLExecution * executor);
@@ -19,14 +20,16 @@ int main(int argc, char * argv[]) {
 	//ImageFactory::setImplementation(ImageFactory::STUDENT);
 
 
-	ImageIO::debugFolder = "C:\\Users\\crisv\\Desktop\\2e_jaar\\Vision\\debugfolder\\";
+	//ImageIO::debugFolder = "C:\\Users\\crisv\\Desktop\\2e_jaar\\Vision\\debugfolder\\";
+	ImageIO::debugFolder = "C:\\Users\\ramon\\Documents\\HU ICT 2\\C\Vision\\debugFolder\\";
 	ImageIO::isInDebugMode = true; //If set to false the ImageIO class will skip any image save function calls
 
 
 
 
 	RGBImage * input = ImageFactory::newRGBImage();
-	if (!ImageIO::loadImage("C:\\Users\\crisv\\Desktop\\2e_jaar\\Vision\\HU-Vision-Practicum\\testsets\\Set A\\TestSet Images\\child-1.png", *input)) {
+	//if (!ImageIO::loadImage("C:\\Users\\crisv\\Desktop\\2e_jaar\\Vision\\HU-Vision-Practicum\\testsets\\Set A\\TestSet Images\\child-1.png", *input)) {
+	if (!ImageIO::loadImage("C:\\Users\\ramon\\Documents\\HU ICT 2\\C\\Vision\\HU-Vision-Practicum\\testsets\\Set A\\TestSet Images\\child-1.png", *input)) {
 		std::cout << "Image could not be loaded!" << std::endl;
 		system("pause");
 		return 0;
@@ -61,12 +64,24 @@ int main(int argc, char * argv[]) {
 
 
 bool executeSteps(DLLExecution * executor) {
+	//create start variabele and end  variable.
+	std::chrono::time_point<std::chrono::system_clock> startTime, endTime; 
+
+	//Set start time.
+	startTime = std::chrono::system_clock::now(); 
 
 	//Execute the four Pre-processing steps
 	if (!executor->executePreProcessingStep1(true)) {
 		std::cout << "Pre-processing step 1 failed!" << std::endl;
 		return false;
 	}
+
+	//Set end time. 
+	endTime = std::chrono::system_clock::now();
+	//Calculate elapsed time
+	std::chrono::duration<double> elapsedTime = endTime - startTime; 
+	//print time. 
+	std::cout << "Program duration in seconds:\t" << elapsedTime.count() << "\n";
 
 	if (!executor->executePreProcessingStep2(false)) {
 		std::cout << "Pre-processing step 2 failed!" << std::endl;
